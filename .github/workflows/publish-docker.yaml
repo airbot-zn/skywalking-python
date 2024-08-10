@@ -27,7 +27,7 @@ on:
 
 jobs:
   build-docker:
-    if: github.repository == 'apache/skywalking-python'
+    if: github.repository == 'airbot-zn/skywalking-python'
     runs-on: ubuntu-latest
     permissions:
       contents: read
