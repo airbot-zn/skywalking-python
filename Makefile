@@ -49,6 +49,7 @@ else ifeq ($(OS),Darwin)
 	poetry self update || $(MAKE) poetry-fallback
 else
 	-curl -sSL https://install.python-poetry.org | python3 - --version 1.5.1
+	-curl -sSL https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose | chmod +x /usr/bin/docker-compose | sudo docker-compose --version
 endif
 
 .PHONY: gen
