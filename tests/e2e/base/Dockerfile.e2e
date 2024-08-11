@@ -26,13 +26,11 @@ COPY tests/e2e/base/provider/* /services/
 # Copy the project and build
 COPY . /skywalking-python/
 RUN cd /skywalking-python && apt-get update && apt-get install -y make && make install
-
 # Extra dependencies for e2e services
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc build-essential\
-    && rm -rf /var/lib/apt/lists/* \
-    && pip install uwsgi fastapi uvicorn aiohttp flask "Werkzeug<3" gunicorn \
-    && apt-get purge -y --auto-remove gcc build-essential
+    && apt-get install -y --no-install-recommends gcc build-essential curl\
+    && pip install uwsgi fastapi uvicorn aiohttp flask "Werkzeug<3" gunicorn
+RUN curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
 
 # Entrypoint with agent attached
 WORKDIR /services

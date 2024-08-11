@@ -31,5 +31,6 @@ mkdir -p $TMP_DIR && cd $TMP_DIR
 
 # execute install
 bash $CURRENT_DIR/install-$NAME.sh $TMP_DIR $BIN_DIR
-
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
 echo "success to install $NAME"

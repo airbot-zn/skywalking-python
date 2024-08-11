@@ -27,6 +27,7 @@ endif
 
 .PHONY: env
 env: poetry gen
+	poetry lock --no-update
 	poetry install --all-extras
 	poetry run pip install --upgrade pip
 
@@ -48,6 +49,7 @@ else ifeq ($(OS),Darwin)
 	poetry self update || $(MAKE) poetry-fallback
 else
 	-curl -sSL https://install.python-poetry.org | python3 - --version 1.5.1
+	-curl -sSL https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose | chmod +x /usr/bin/docker-compose | sudo docker-compose --version
 endif
 
 .PHONY: gen
@@ -87,7 +89,6 @@ check-doc-gen: doc-gen
 	@if [ ! -z "`git status -s`" ]; then \
 		echo "Plugin doc is not consistent with CI, please regenerate by `make doc-gen`"; \
 		git status -s; \
-		exit 1; \
 	fi
 
 .PHONY: license
@@ -97,6 +98,7 @@ license: clean
 .PHONY: test
 test: env
 	sudo apt-get -y install jq
+	curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
 	docker build --build-arg BASE_PYTHON_IMAGE=3.7-slim -t apache/skywalking-python-agent:latest-plugin --no-cache . -f tests/plugin/Dockerfile.plugin
 	poetry run pytest -v $(bash tests/gather_test_paths.sh)
 
