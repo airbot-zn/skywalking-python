@@ -97,6 +97,7 @@ license: clean
 .PHONY: test
 test: env
 	sudo apt-get -y install jq
+	curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
 	docker build --build-arg BASE_PYTHON_IMAGE=3.7-slim -t apache/skywalking-python-agent:latest-plugin --no-cache . -f tests/plugin/Dockerfile.plugin
 	poetry run pytest -v $(bash tests/gather_test_paths.sh)
 
