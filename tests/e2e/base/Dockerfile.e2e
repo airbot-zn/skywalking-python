@@ -26,6 +26,7 @@ COPY tests/e2e/base/provider/* /services/
 # Copy the project and build
 COPY . /skywalking-python/
 RUN cd /skywalking-python && apt-get update && apt-get install -y make && make install
+RUN curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose && chmod +x /usr/bin/docker-compose
 
 # Extra dependencies for e2e services
 RUN apt-get update \
